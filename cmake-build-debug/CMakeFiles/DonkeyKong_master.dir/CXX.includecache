@@ -1,0 +1,46 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/cygdrive/d/ESGI/4AL2/C++/DonkeyKong-master/Entity.cpp
+pch.h
+/cygdrive/d/ESGI/4AL2/C++/DonkeyKong-master/pch.h
+Entity.h
+/cygdrive/d/ESGI/4AL2/C++/DonkeyKong-master/Entity.h
+
+/cygdrive/d/ESGI/4AL2/C++/DonkeyKong-master/Entity.h
+
+/cygdrive/d/ESGI/4AL2/C++/DonkeyKong-master/EntityManager.cpp
+pch.h
+/cygdrive/d/ESGI/4AL2/C++/DonkeyKong-master/pch.h
+EntityManager.h
+/cygdrive/d/ESGI/4AL2/C++/DonkeyKong-master/EntityManager.h
+
+/cygdrive/d/ESGI/4AL2/C++/DonkeyKong-master/EntityManager.h
+Entity.h
+/cygdrive/d/ESGI/4AL2/C++/DonkeyKong-master/Entity.h
+
+/cygdrive/d/ESGI/4AL2/C++/DonkeyKong-master/Game.cpp
+pch.h
+/cygdrive/d/ESGI/4AL2/C++/DonkeyKong-master/pch.h
+StringHelpers.h
+/cygdrive/d/ESGI/4AL2/C++/DonkeyKong-master/StringHelpers.h
+Game.h
+/cygdrive/d/ESGI/4AL2/C++/DonkeyKong-master/Game.h
+EntityManager.h
+/cygdrive/d/ESGI/4AL2/C++/DonkeyKong-master/EntityManager.h
+
+/cygdrive/d/ESGI/4AL2/C++/DonkeyKong-master/Game.h
+
+/cygdrive/d/ESGI/4AL2/C++/DonkeyKong-master/StringHelpers.cpp
+pch.h
+/cygdrive/d/ESGI/4AL2/C++/DonkeyKong-master/pch.h
+StringHelpers.h
+/cygdrive/d/ESGI/4AL2/C++/DonkeyKong-master/StringHelpers.h
+
+/cygdrive/d/ESGI/4AL2/C++/DonkeyKong-master/StringHelpers.h
+

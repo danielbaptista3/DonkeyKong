@@ -1,0 +1,3 @@
+/cygdrive/d/ESGI/4AL2/C++/DonkeyKong-master/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/cygdrive/d/ESGI/4AL2/C++/DonkeyKong-master/cmake-build-debug/CMakeFiles/DonkeyKong_master.dir
+/cygdrive/d/ESGI/4AL2/C++/DonkeyKong-master/cmake-build-debug/CMakeFiles/edit_cache.dir
