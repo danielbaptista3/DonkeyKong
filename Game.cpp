@@ -8,7 +8,7 @@
 #include "AnimationSprite.h"
 #include "GameHelper.h"
 
-const float Game::PlayerSpeed = 1000.f;
+const float Game::PlayerSpeed = 100.f;
 const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f);
 const std::string BlockTexturePath = "Media/Textures/Block.png";
 const std::string LadderTexturePath = "Media/Textures/Echelle.PNG";
