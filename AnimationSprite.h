@@ -24,14 +24,14 @@ public:
 	void setFrame(std::size_t newFrame, bool resetTime = true);
 
 private:
-	const Animation* mAnimation;
-	sf::Time mFrameTime;
-	sf::Time mCurrentTime;
-	std::size_t mCurrentFrame;
-	bool mIsPaused;
-	bool mIsLooped;
-	const sf::Texture* mTexture;
-	sf::Vertex mVertices[4];
+	const Animation* spriteAnimation;
+	sf::Time spriteFrameTime;
+	sf::Time spriteCurrentTime;
+	std::size_t spriteCurrentFrame;
+	bool spriteIsStopped;
+	bool spriteIsLooped;
+	const sf::Texture* spriteTexture;
+	sf::Vertex spriteVertices[4];
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

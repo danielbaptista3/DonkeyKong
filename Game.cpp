@@ -8,7 +8,7 @@
 #include "AnimationSprite.h"
 #include "GameHelper.h"
 
-const float Game::PlayerSpeed = 100.f;
+const float Game::PlayerSpeed = 150.f;
 const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f);
 const std::string BlockTexturePath = "Media/Textures/Block.png";
 const std::string LadderTexturePath = "Media/Textures/Echelle.PNG";
@@ -37,7 +37,6 @@ Game::Game() :
 	drawLadders();
 	drawCoins();
 	drawMario();
-	drawStatistics();
 	drawScore();
 }
 
@@ -59,10 +58,10 @@ void Game::drawBlocks() {
 		}
 
 		std::shared_ptr<Entity> se = std::make_shared<Entity>(false, EntityType::block);
-		se->m_sprite = _Block[i][BLOCK_COUNT_Y];
-		se->m_size = _TextureBlock.getSize();
-		se->m_position = _Block[i][BLOCK_COUNT_Y].getPosition();
-		EntityManager::m_Entities.push_back(se);
+		se->entitySprite = _Block[i][BLOCK_COUNT_Y];
+		se->entitySize = _TextureBlock.getSize();
+		se->entityPosition = _Block[i][BLOCK_COUNT_Y].getPosition();
+		EntityManager::managerEntities.push_back(se);
 	}
 
 	for (int i = 0; i < BLOCK_COUNT_X; i++) {
@@ -77,10 +76,10 @@ void Game::drawBlocks() {
 			}
 
 			std::shared_ptr<Entity> se = std::make_shared<Entity>(false, EntityType::block);
-			se->m_sprite = _Block[i][j];
-			se->m_size = _TextureBlock.getSize();
-			se->m_position = _Block[i][j].getPosition();
-			EntityManager::m_Entities.push_back(se);
+			se->entitySprite = _Block[i][j];
+			se->entitySize = _TextureBlock.getSize();
+			se->entityPosition = _Block[i][j].getPosition();
+			EntityManager::managerEntities.push_back(se);
 		}
 	}
 }
@@ -99,10 +98,10 @@ void Game::drawLadders() {
 		}
 
 		std::shared_ptr<Entity> se = std::make_shared<Entity>(false, EntityType::ladder);
-		se->m_sprite = _Ladder[i];
-		se->m_size = _LadderTexture.getSize();
-		se->m_position = _Ladder[i].getPosition();
-		EntityManager::m_Entities.push_back(se);
+		se->entitySprite = _Ladder[i];
+		se->entitySize = _LadderTexture.getSize();
+		se->entityPosition = _Ladder[i].getPosition();
+		EntityManager::managerEntities.push_back(se);
 	}
 }
 
@@ -114,14 +113,14 @@ void Game::drawMario() {
 	const float SCALE_WIDTH = MARIO_WIDTH / FRAME_WIDTH;
 	const float SCALE_HEIGHT = MARIO_HEIGHT / FRAME_HEIGHT;
 
-	mario->m_size = sf::Vector2u(MARIO_WIDTH, MARIO_HEIGHT);
-	mario->m_position = sf::Vector2f(100.f + 70.f, BLOCK_SPACE * 7 - MARIO_HEIGHT);
+	mario->entitySize = sf::Vector2u(MARIO_WIDTH, MARIO_HEIGHT);
+	mario->entityPosition = sf::Vector2f(100.f + 70.f, BLOCK_SPACE * 7 - MARIO_HEIGHT);
 
 	auto standingRightSprite = sf::IntRect(162, 0, FRAME_WIDTH, FRAME_HEIGHT);
 	auto standingLeftSprite = sf::IntRect(122, 0, FRAME_WIDTH, FRAME_HEIGHT);
 	mario->standingRightRect = sf::Sprite(mSpriteSheet, standingRightSprite);
 	mario->standingLeftRect = sf::Sprite(mSpriteSheet, standingLeftSprite);
-	mario->m_sprite = mario->standingRightRect;
+	mario->entitySprite = mario->standingRightRect;
 
 	mario->standingLeftRect.scale(SCALE_WIDTH, SCALE_HEIGHT);
 	mario->standingRightRect.scale(SCALE_WIDTH, SCALE_HEIGHT);
@@ -142,15 +141,7 @@ void Game::drawMario() {
 	animatedSprite.scale(SCALE_WIDTH, SCALE_HEIGHT);
 	mario->animatedSprite = animatedSprite;
 
-	EntityManager::m_Entities.push_back(mario);
-}
-
-void Game::drawStatistics() {
-	mFont.loadFromFile(StatisticsFontPath);
-	mStatisticsText.setString("Welcome to Donkey Kong 1981");
-	mStatisticsText.setFont(mFont);
-	mStatisticsText.setPosition(5.f, 5.f);
-	mStatisticsText.setCharacterSize(10);
+	EntityManager::managerEntities.push_back(mario);
 }
 
 void Game::drawScore() {
@@ -184,10 +175,10 @@ void Game::drawCoins() {
 		);
 
 		std::shared_ptr<Entity> se = std::make_shared<Entity>(false, EntityType::coin);
-		se->m_sprite = _Coin[i];
-		se->m_size = _CoinTexture.getSize();
-		se->m_position = _Coin[i].getPosition();
-		EntityManager::m_Entities.push_back(se);
+		se->entitySprite = _Coin[i];
+		se->entitySize = _CoinTexture.getSize();
+		se->entityPosition = _Coin[i].getPosition();
+		EntityManager::managerEntities.push_back(se);
 	}
 }
 
@@ -216,7 +207,7 @@ void Game::run() {
 			winFont.loadFromFile("Media/Sansation.ttf");
 			winText.setFont(winFont); 
 			winText.setString("WIN");
-			winText.setCharacterSize(54);
+			winText.setCharacterSize(80);
 			winText.setFillColor(sf::Color::Red);
 			winText.setStyle(sf::Text::Bold | sf::Text::Underlined);
 			mWindow.draw(winText);
@@ -281,47 +272,37 @@ void Game::update(sf::Time elapsedTime) {
 		mario->isFacingLeft = false;
 	}
 
-	mario->m_position.x += movement.x * elapsedTime.asSeconds();
-	mario->m_position.y += movement.y * elapsedTime.asSeconds();
+	mario->entityPosition.x += movement.x * elapsedTime.asSeconds();
+	mario->entityPosition.y += movement.y * elapsedTime.asSeconds();
 
 	mario->animatedSprite.play(*mario->currentAnimation);
-	mario->animatedSprite.setPosition(mario->m_position);
+	mario->animatedSprite.setPosition(mario->entityPosition);
 	mario->animatedSprite.update(elapsedTime);
 
 	if (!mario->isMoving) {
 		mario->animatedSprite.stop();
 
 		if (mario->isFacingLeft) {
-			mario->m_sprite = mario->standingLeftRect;
+			mario->entitySprite = mario->standingLeftRect;
 		}
 		else {
-			mario->m_sprite = mario->standingRightRect;
+			mario->entitySprite = mario->standingRightRect;
 		}
 
-		mario->m_sprite.setPosition(mario->m_position);
+		mario->entitySprite.setPosition(mario->entityPosition);
 	}
 }
 
 void Game::render() {
 	mWindow.clear();
 
-	for (const std::shared_ptr<Entity> &entity : EntityManager::m_Entities) {
+	for (const std::shared_ptr<Entity> &entity : EntityManager::managerEntities) {
 		if (entity->isAnimated && entity->isMoving) {
 			mWindow.draw(entity->animatedSprite);
 		}
 		else {
-			mWindow.draw(entity->m_sprite);
+			mWindow.draw(entity->entitySprite);
 		}
-	}
-
-	if (debug) {
-		sf::RectangleShape marioBox;
-		marioBox.setPosition(mario->m_position);
-		marioBox.setSize(sf::Vector2f(mario->m_size.x, mario->m_size.y));
-		marioBox.setOutlineColor(sf::Color::Red);
-		marioBox.setFillColor(sf::Color::Transparent);
-		marioBox.setOutlineThickness(2.f);
-		mWindow.draw(marioBox);
 	}
 
 	mWindow.draw(scoreAnnouncementText);
@@ -332,6 +313,7 @@ void Game::render() {
 
 void Game::updateScore() {
 	scoreText.setString(std::to_string(score));
+	
 }
 
 void Game::updateStatistics(sf::Time elapsedTime) {
@@ -379,18 +361,19 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed) {
 void Game::handleCoins() {
 	auto coins = EntityManager::GetCoins();
 	auto playerBounds = sf::Rect<float>(
-		mario->m_position.x,
-		mario->m_position.y,
-		mario->m_size.x,
-		mario->m_size.y
+		mario->entityPosition.x,
+		mario->entityPosition.y,
+		mario->entitySize.x,
+		mario->entitySize.y
 		);
 
 	for (auto const& coin : coins) {
-		auto coinGlobalBounds = coin.get()->m_sprite.getGlobalBounds();
+		auto coinGlobalBounds = coin.get()->entitySprite.getGlobalBounds();
 
 		if (coinGlobalBounds.intersects(playerBounds)) {
 			EntityManager::RemoveCoin(coin);
 			score += COIN_VALUE;
+			printf("score : %d", score);
 		}
 	}
 }
@@ -398,14 +381,14 @@ void Game::handleCoins() {
 void Game::handleFloors() {
 	auto floors = EntityManager::GetFloors();
 	auto playerBounds = sf::Rect<float>(
-		mario->m_position.x,
-		mario->m_position.y,
-		mario->m_size.x,
-		mario->m_size.y
+		mario->entityPosition.x,
+		mario->entityPosition.y,
+		mario->entitySize.x,
+		mario->entitySize.y
 		);
 	mario->isFalling = true;
 	for (auto const& floor : floors) {
-		auto floorGloabalBounds = floor.get()->m_sprite.getGlobalBounds();
+		auto floorGloabalBounds = floor.get()->entitySprite.getGlobalBounds();
 		if (floorGloabalBounds.intersects(playerBounds)) {
 			mario->isFalling = false;
 			return;
@@ -416,14 +399,14 @@ void Game::handleFloors() {
 void Game::handleLadders() {
 	auto ladders = EntityManager::GetLadders();
 	auto playerBounds = sf::Rect<float>(
-		mario->m_position.x,
-		mario->m_position.y,
-		mario->m_size.x,
-		mario->m_size.y
+		mario->entityPosition.x,
+		mario->entityPosition.y,
+		mario->entitySize.x,
+		mario->entitySize.y
 		);
 	mario->isOnLadder = false;
 	for (auto const& ladder : ladders) {
-		auto ladderGloabalBounds = ladder.get()->m_sprite.getGlobalBounds();
+		auto ladderGloabalBounds = ladder.get()->entitySprite.getGlobalBounds();
 		if (ladderGloabalBounds.intersects(playerBounds)) {
 			mario->isOnLadder = true;
 			return;

@@ -14,6 +14,6 @@ public:
 	const sf::IntRect& getFrame(std::size_t n) const;
 	
 private:
-	std::vector<sf::IntRect> mFrames;
-	const sf::Texture* mTexture;
+	std::vector<sf::IntRect> animationFrames;
+	const sf::Texture* animationTexture;
 };

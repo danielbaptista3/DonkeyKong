@@ -10,12 +10,12 @@
 #define BLOCK_COUNT_Y 6
 #define BLOCK_SPACE 130.f
 #define COIN_COUNT 5
-#define COIN_VALUE 100
+#define COIN_VALUE 50
 #define SCREEN_HEIGHT 1280
 #define SCREEN_WIDTH 960
-#define MARIO_HEIGHT 48
-#define MARIO_WIDTH 32
-#define MARIO_GRAVITY 200.0f
+#define MARIO_HEIGHT 35
+#define MARIO_WIDTH 35
+#define MARIO_GRAVITY 300.0f
 
 class Game {
 public:
@@ -35,7 +35,6 @@ private:
 	void drawBlocks();
 	void drawLadders();
 	void drawMario();
-	void drawStatistics();
 	void drawCoins();
 	void handleCoins();
 	void drawScore();

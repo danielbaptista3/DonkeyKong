@@ -2,13 +2,13 @@
 #include "EntityManager.h"
 
 
-std::list<std::shared_ptr<Entity>> EntityManager::m_Entities;
+std::list<std::shared_ptr<Entity>> EntityManager::managerEntities;
 
 std::list<std::shared_ptr<Entity>> EntityManager::GetCoins() {
 	std::list<std::shared_ptr<Entity>> coins;
 
-	for (auto const& entity : EntityManager::m_Entities) {
-		if (entity->m_type == EntityType::coin) {
+	for (auto const& entity : EntityManager::managerEntities) {
+		if (entity->entityType == EntityType::coin) {
 			coins.push_back(entity);
 		}
 	}
@@ -17,14 +17,14 @@ std::list<std::shared_ptr<Entity>> EntityManager::GetCoins() {
 }
 
 void EntityManager::RemoveCoin(std::shared_ptr<Entity> coin) {
-	EntityManager::m_Entities.remove(coin);
+	EntityManager::managerEntities.remove(coin);
 }
 
 std::list<std::shared_ptr<Entity>> EntityManager::GetFloors() {
 	std::list<std::shared_ptr<Entity>> floors;
 
-	for (auto const& entity : EntityManager::m_Entities) {
-		if (entity->m_type == EntityType::block) {
+	for (auto const& entity : EntityManager::managerEntities) {
+		if (entity->entityType == EntityType::block) {
 			floors.push_back(entity);
 		}
 	}
@@ -35,8 +35,8 @@ std::list<std::shared_ptr<Entity>> EntityManager::GetFloors() {
 std::list<std::shared_ptr<Entity>> EntityManager::GetLadders() {
 	std::list<std::shared_ptr<Entity>> ladders;
 
-	for (auto const& entity : EntityManager::m_Entities) {
-		if (entity->m_type == EntityType::ladder) {
+	for (auto const& entity : EntityManager::managerEntities) {
+		if (entity->entityType == EntityType::ladder) {
 			ladders.push_back(entity);
 		}
 	}
